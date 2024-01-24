@@ -1,0 +1,335 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'partials/_messages.html' %}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-10">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Inicio</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Socios</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="col-md-2">
+            <a href="{% url 'add-expenses'%}" class="btn btn-primary">Agregar nuevo socio </a>
+            
+        </div>
+    </div>
+
+</div>
+
+{% if expenses.count %}
+<div class="container">
+    <div>
+        <br>
+
+    </div>
+    <div class="row">
+        <div class="col-md-2 mb-0 p-0">
+
+
+        </div>
+        <div class="col-md-1">
+            
+
+
+        </div>
+        <div class="col-md-1">
+            
+
+        </div>
+        <div class="col-md-1">
+            
+
+
+        </div>
+        <div class="col-md-2">
+            
+
+
+        </div>
+        <div class="col-md-2">
+            
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-2">
+            <p class="mb-0"><strong >Socios registrados:</strong> {{ totalExpenses }}</p>
+            <p class="mb-0"><strong >Filtrado:</strong> <label class = "registrados"> --- </label> </p>
+        </div>
+        <div class="col-md-1">
+            <div class="form-group">
+                <label for="edadFilter">Edad:</label>
+                <input type="text" class="form-control py-0 px-1" id="edadFilter" placeholder="Todos"
+                    style="border: 1px solid ;" oninput="validateNumberInput(this)">
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="form-group">
+                <label for="aporteFilter">Vigencia:</label>
+                <input type="text" class="form-control py-0 px-1" id="vigenciaFilter" placeholder="Todos"
+                    style="border: 1px solid ;" oninput="validateNumberInput(this)">
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="form-group">
+                <label for="estadoFilter">Estado:</label>
+                <select class="form-control py-0 px-1" id="estadoFilter" style="border: 1px solid ;">
+                    <option value="0">Todos</option>
+                    <option value="ACTIVO">ACTIVO</option>
+                    <option value="INACTIVO">INACTIVO</option>
+
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="monthFilter">Mes de Nacimiento:</label>
+                <select class="form-control py-0 px-1" id="monthFilter" style="border: 1px solid ;">
+                    <option value="0">Todos</option>
+                    <option value="1">Enero</option>
+                    <option value="2">Febrero</option>
+                    <option value="3">Marzo</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Mayo</option>
+                    <option value="6">Junio</option>
+                    <option value="7">Julio</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="tipoFilter">Tipo de Socio:</label>
+                <select class="form-control py-0 px-1" id="tipoFilter" style="border: 1px solid ;">
+                    <option value="0">Todos</option>
+                    <option value="SOCIO PLAN 10">SOCIO PLAN 10</option>
+                    <option value="SOCIO ORO">SOCIO ORO</option>
+                    <option value="SOCIO FINANCIERAS PLAN 27.5">SOCIO FINANCIERAS PLAN 27.5</option>
+                    <option value="SOCIO EMPRESA PLAN 15">SOCIO EMPRESA PLAN 15</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <input type="text" class="form-control" id="searchField" placeholder="Buscar" style="border: 1px solid #153d6c; padding: 5px;">
+            </div>
+        </div>
+    </div>
+    
+    <div class="app-table">
+        <div class="app-table-scroll">
+            <table class="table table-stripped table-hover">
+                <thead>
+                    <tr>
+                    <th></th>
+                    <th>Cédula/RUC</th>
+                    <th>Razón Social</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>Fecha de Inscripción</th>
+                    <th>Nombre Comercial</th>
+                    <th>Actividad</th>
+                    <th>Teléfonos</th>
+                    <th>Email</th>
+                    <th>Pertenece a Comité</th>
+                    <th>Dirección Comercial</th>
+                    <th>Dirección Domicilio</th>
+                    <th>Meses Vigencia</th>
+                    <th>Tipo Socio</th>
+                    <th>Recaudador</th>
+                    <th>Género</th>
+                    <th>Línea de Negocio</th>
+                    <th>Estado</th>
+                    <th>Aseguradora</th>
+                    <th>Nacionalidad</th>
+                    <th>Estado Civil</th>
+                    <th>Móvil</th>
+                    <th>Nombre</th>
+                    <th>Representante Legal</th>
+                    <th>Cónyuge</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for expense in page_obj %}
+                    <tr>
+                        <td>
+                            <a style="text-align: center;"><a href="{% url 'expense-edit' expense.id %}"
+                                class = "btn btn-secondary btn-sm mx-3">Editar</a></a>
+                            <a style="text-align: center;"><a href="{% url 'expense-finanzas' expense.id %}"
+                                class = "btn btn-info btn-sm">Finanzas</a></a>
+                        </td>
+                        <td>{{ expense.cedula_ruc}}</td>
+                        <td>{{ expense.razon_social}}</td>
+                        <td>{{ expense.fecha_nacimiento |date:"d-m-Y" }}</td>
+                        <td>{{ expense.fecha_inscripcion |date:"d-m-Y"  }}</td>
+                        <td>{{ expense.nombre_comercial}}</td>
+                        <td>{{ expense.actividad}}</td>
+                        <td>{{ expense.telefonos}}</td>
+                        <td>{{ expense.email}}</td>
+                        <td>{{ expense.pertenece_comite}}</td>
+                        <td style="min-width: 250px;  font-size:small;"><p style="min-height: 30px;">{{ expense.dir_comercial}}</p> <p style="text-align: center;"><a href="{% url 'expense-comercial-map' expense.id %}"
+                            class = "btn btn-light btn-sm mt-3"><img src="..\static\img\map.png" class="img-fluid mx-2" style="width: 7%;"  alt="">Abrir Mapa</a></p></td>
+                        <td style="min-width: 250px;  font-size:small;  "><p style="min-height: 30px;">{{ expense.dir_domicilio}}</p>  <p style="text-align: center;"><a href="{% url 'expense-domicilio-map' expense.id %}"
+                                class = "btn btn-light btn-sm mt-3"><img src="..\static\img\map.png" class="img-fluid mx-2" style="width: 7%;"  alt="">Abrir Mapa</a></p></td>
+                        <td>{{ expense.nmesesvigencia}}</td>
+                        <td>{{ expense.tipo_socio}}</td>
+                        <td>{{ expense.recaudador}}</td>
+                        <td>{{ expense.genero}}</td>
+                        <td>{{ expense.linea_negocio}}</td>
+                        <td>{{ expense.estado}}</td>
+                        <td>{{ expense.aseguradora}}</td>
+                        <td>{{ expense.nacionalidad}}</td>
+                        <td>{{ expense.estado_civil}}</td>
+                        <td>{{ expense.movil}}</td>
+                        <td>{{ expense.nombre}}</td>
+                        <td>{{ expense.representantelegal}}</td>
+                        <td>{{ expense.conyuge}}</td>
+                        <td>{{ expense.latitud_comercial}}</td>
+                        <td>{{ expense.longitud_comercial}}</td>
+                        <td>{{ expense.latitud_domicilio}}</td>
+                        <td>{{ expense.longitud_domicilio}}</td>
+                        
+                        
+   
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+    
+    </div>
+
+    <p class="no-results" style="display: none;">Sin resultados </p>
+
+    <div class="table-output">
+        <div class="app-table-scroll">
+            
+                <table class="table table-stripped table-hover">
+            
+                    <thead>
+                        <tr>
+                            <th></th>
+                        <th>Cédula/RUC</th>
+                        <th>Razón Social</th>
+                        <th>Fecha de Nacimiento</th>
+                        <th>Fecha de Inscripción</th>
+                        <th>Nombre Comercial</th>
+                        <th>Actividad</th>
+                        <th>Teléfonos</th>
+                        <th>Email</th>
+                        <th>Pertenece a Comité</th>
+                        <th>Dirección Comercial</th>
+                        <th>Dirección Domicilio</th>
+                        <th>Meses Vigencia</th>
+                        <th>Tipo Socio</th>
+                        <th>Recaudador</th>
+                        <th>Género</th>
+                        <th>Línea de Negocio</th>
+                        <th>Estado</th>
+                        <th>Aseguradora</th>
+                        <th>Nacionalidad</th>
+                        <th>Estado Civil</th>
+                        <th>Móvil</th>
+                        <th>Nombre</th>
+                        <th>Representante Legal</th>
+                        <th>Cónyuge</th>
+                            </tr>
+                    </thead>
+                    
+                    <tbody class = "table-body">
+                        
+                        
+                        
+                    </tbody>
+                    
+                </table>
+            
+            
+        </div>
+       
+        
+    </div>
+    
+    <div class="pagination-container">
+        <div class="row my-4">
+            <div class="col-md-2">
+                <div class="pagination-info">
+                    Mostrando {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                </div>
+            </div>
+            <div class="col-md-10 ">
+                <ul class="pagination align-right float-end mr-auto">
+                    {% if page_obj.has_next %}
+                        <li class="page-item"> <a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a></li>
+                        <li class="page-item"> <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages}} &raquo;</a></li>
+                    {% endif %}
+            
+                    {% if page_obj.has_previous %}
+                        <li {% if page_obj.number == 1 %} class="page-item active" {% endif %}><a class="page-link" href="?page=1">&laquo; 1</a></li>
+                        <li class="page-item"> <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+
+        </div>
+        
+        
+    </div>
+    
+</div>
+
+{% endif %}
+
+<script src="{% static 'js/searchExpenses.js' %}"> </script>
+
+
+
+<script>
+    const expenseEditUrl = "{% url 'expense-edit' 0 %}".replace("0", "item.id");
+    const expenseFinanzasUrl = "{% url 'expense-finanzas' 0 %}".replace("0", "item.id")
+    const expenseComercialMapUrl = "{% url 'expense-comercial-map' 0 %}".replace("0", "item.id");
+    const expenseDomicilioMapUrl = "{% url 'expense-domicilio-map' 0 %}".replace("0", "item.id");
+
+    function validateNumberInput(input) {
+      input.value = input.value.replace(/[^0-9]/g, '');
+    }
+    
+    
+</script>
+
+
+
+<style>
+    .app-table-container {
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+
+    .app-table-scroll {
+        width: 100%;
+        max-height: 500px;
+        overflow-x: scroll;
+        overflow-y: scroll;
+    }
+    .app-table-scroll th,
+    .app-table-scroll td {
+        font-size: medium;
+        min-width: 190px;   
+    }
+
+
+</style>
+
+{% endblock content %}
+
+

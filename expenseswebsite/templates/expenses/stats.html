@@ -1,0 +1,146 @@
+{% extends 'base.html'  %}
+{% load static %}
+
+{% block content %}
+{% include 'partials/_messages.html' %}
+
+
+
+<div class="container mt-4"> 
+    <div class="row">
+        <div class="col-md-10">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="{% url 'home' %}">Inicio</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Estadísticas</li>
+                </ol>
+              </nav>
+        </div>   
+    </div>
+</div>
+<div class="container mt-4">
+  <div class="row">
+    <h2>Resumen Cámara de Comercio de Loja </h2>
+      <div class="col-md-4">
+        <div class = "card p-4 my-2 mx-0 shadow rounded-5" style="border: solid 3px;  border-color: #176ba0;">
+            <div class = card-body>
+                <p class = "m-0"> <span style="display: inline-block;">●</span> Total de Socios registrados: <strong>{{ total_socios}}</strong></p>
+            </div>
+        </div>
+        <div class = "card p-4 my-2 mx-0 shadow rounded-5" style="border: solid 3px;  border-color: #176ba0;">
+            <div class = card-body>
+          <canvas id="oroSocios75AniosChart" width="400" height="230"></canvas>
+          
+            </div>
+            <p class = "m-0"> <span style="display: inline-block;">●</span> Socios ORO con 75 años: <strong>{{ oro_socios_75_anios}}</strong></p>
+        </div>
+        
+
+      </div>
+      <div class="col-md-8" >
+        <div class = "card p-4 my-2 mx-0 shadow rounded-5" style="border: solid 3px;  border-color: #176ba0;">
+            <div class = card-body> 
+                <canvas id="sociosPorTipoChart" width="100" height=39" ></canvas>
+            </div>
+            {% for tipo_socio in socios_por_tipo %}
+            <p class = "m-0"> <span style="display: inline-block;">●</span> {{ tipo_socio.tipo_socio }}: <strong>{{ tipo_socio.cantidad }}</strong></p>
+            
+            {% endfor %}
+            
+        </div>
+
+      </div>
+      
+      <div class="col-md-6" >
+        <div class = "card p-4   m-2 shadow rounded-5" style="border: solid 3px;  border-color: #176ba0;">
+            <div class = card-body> 
+                <canvas id="anios30aporteChart" width="100" height="65" ></canvas>
+            </div>
+            <p class = "m-0"> <span style="display: inline-block;">●</span> Cumplidos: <strong>{{ socios_30_anios_aporte_cumplidos}}</strong></p>
+            <p class = "m-0"> <span style="display: inline-block;">●</span> Cumplen este año: <strong>{{ socios_30_anios_aporte_este_anio}}</strong></p>
+            <p class = "m-0"> <span style="display: inline-block;">●</span> Cumplen este mes: <strong>{{ socios_30_anios_aporte_este_mes}}</strong></p>
+            
+
+        </div>
+        <div class = "card p-4   m-2 shadow rounded-5" style="border: solid 3px;  border-color: #176ba0;">
+            <div class = card-body> 
+                <p class = "m-0"> <span style="display: inline-block;"></span> Socios inscritos <strong></strong></p>
+                <p class = "m-0"> <span style="display: inline-block;">●</span> Este Año: <strong>{{ socios_inscritos_este_anio}}</strong></p>
+                <p class = "m-0"> <span style="display: inline-block;">●</span> Este Mes: <strong>{{ socios_inscritos_este_mes}}</strong></p>
+            </div>
+            
+            
+
+        </div>
+      </div>
+      <div class="col-md-6" >
+        <div class = "card p-4 m-2 shadow rounded-5" style="border: solid 3px;  border-color: #176ba0;">
+            <div class = card-body> 
+                <p class = "m-0"> <span style="display: inline-block;"></span> Cumplen 75 Años <strong></strong></p>
+                <p class = "m-0"> <span style="display: inline-block;">●</span> Este Año: <strong>{{ socios_cumplen_75_anios_este_anio}}</strong></p>
+                <p class = "m-0"> <span style="display: inline-block;">●</span> Este Mes: <strong>{{ socios_cumplen_75_anios_este_mes}}</strong></p>
+
+                
+            </div>
+        </div>
+        
+            <div class = "card p-4 my-2 mx-0 shadow rounded-5" style="border: solid 3px;  border-color: #176ba0;">
+                <div class = card-body> 
+                    <canvas id="sociosPorGeneroChart" width="100" height=340" ></canvas>
+                </div>
+                {% for genero in socios_por_genero %}
+                <p class = "m-0"> <span style="display: inline-block;">●</span> {{ genero.genero }}: <strong>{{ genero.cantidad }}</strong></p>
+                
+                {% endfor %}
+                
+            </div>
+    
+          </div>
+
+          <div class="col-md-12" >
+            <div class = "card p-4 my-2 mx-0 shadow rounded-5" style="border: solid 3px;  border-color: #176ba0;">
+                <div class = card-body> 
+                    <canvas id="lineChart" width="100" height=200" ></canvas>
+                </div>
+                
+                
+            </div>
+    
+          </div>
+      
+  </div>
+</div>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/stats.js' %}"> </script>
+<script>
+    var dataoroSocios75Anios = [{{ oro_socios_75_anios }}, {{  total_socios_oro }} - {{ oro_socios_75_anios}}];
+    var tiposSocios = [ {% for tipo_socio in socios_por_tipo %}'{{ tipo_socio.tipo_socio }}',{% endfor %} ];
+    var cantidadSocios = [ {% for tipo_socio in socios_por_tipo %}{{ tipo_socio.cantidad }},{% endfor %} ];
+    var socios_30_anios_aporte_cumplidos = {{socios_30_anios_aporte_cumplidos}}
+    var socios_30_anios_aporte_este_anio = {{socios_30_anios_aporte_este_anio}}
+    var socios_30_anios_aporte_este_mes = {{socios_30_anios_aporte_este_mes}}
+    var generoSocios = [ {% for genero in socios_por_genero %}'{{ genero.genero }}',{% endfor %} ];
+    var cantidadSociosGenero = [ {% for genero in socios_por_genero %}{{ genero.cantidad }},{% endfor %} ];
+    var datosLineChart = {{ datos_line_chart|safe }};
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap">
+<style>
+  body { 
+    background-color: eff3f6 ;
+  }
+  
+  h2{
+    font-family: 'Roboto', sans-serif;
+    color: #0a3261;
+    font-weight:500;
+  }
+  span{   
+    color: #00489a;
+  }
+</style>
+{% endblock content %}

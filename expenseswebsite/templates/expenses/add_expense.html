@@ -1,0 +1,242 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+
+{% block content %}
+<div class="container mt-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item`"><a href="{% url 'index' %}">Socios</a></li>
+      <li class="breadcrumb-item active" aria-current="page">/ Nuevo Socio</li>
+    </ol>
+  </nav>
+
+
+
+  <div class="card">
+
+    <div class="card-body p-3">
+
+      <form action="{% url 'add-expenses' %}" method="post">
+      {% include 'partials/_messages.html' %}
+      {% csrf_token %}
+      <div class="row">
+        
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class ="m-4" for="">Cédula/RUC <span class="validation-asterisk">*</span></label>
+            <input type="text" class="form-control form-control-sm p-1 mb-4 border-1 border-primary" name="cedula_ruc" value = "{{values.cedula_ruc}}" oninput="validateNumberInput(this)" >
+          </div>
+          <div class="form-group">
+            <label class ="m-4" for="">Fecha de Nacimiento </label> 
+            <input type="text" class="datepicker form-control form-control-sm p-1 mb-4  border-1 border-primary" name="fecha_nacimiento" value = "{{values.fecha_nacimiento}}" placeholder="Seleccionar Fecha" oninput="validateNumberInput(this)">
+          </div>
+          <div class="form-group">
+            <label class ="m-4" for="">Teléfono </label>
+            <input type="text" class="form-control form-control-sm p-1 mb-4  border-1 border-primary" name="telefonos" value = "{{values.telefonos}}">
+          </div>
+          <div class="form-group my-4">
+            <label class ="m-4" for="">Pertenece a Comité <span class="validation-asterisk">*</span></label>
+            <select  class="form-select border-1 border-primary p-1 mb-4 "name="pertenece_comite" value = "{{values.pertenece_comite}}" oninput="validateInput(this)">
+              <option value="">Seleccionar Comité</option>
+              {% for comite in comites %}
+              <option value="{{ comite.nombre }}" {% if comite.nombre == values.pertenece_comite %}selected{% endif %}>
+                {{ comite.nombre }}
+            </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label class ="m-4" for="">Dirección Comercial <span class="validation-asterisk">*</span></label>
+            <input type="text" class="form-control form-control-sm p-1 mb-4  border-1 border-primary" name="dir_comercial" value = "{{values.dir_comercial}}" oninput="validateInput(this)">
+          </div>
+          <div class="form-group">
+            <label class ="m-4" for="">Tipo Socio <span class="validation-asterisk">*</span></label>
+            <select  class="form-select border-1 border-primary p-1 mb-4 "name="tipo_socio" value = "{{values.tipo_socio}}" oninput="validateInput(this)">
+              <option value="">Seleccionar Tipo de Socio</option>
+              {% for tiposocio in tipossocio %}
+              <option value="{{ tiposocio.nombre }}" {% if tiposocio.nombre == values.tipo_socio %}selected{% endif %}>
+                {{ tiposocio.nombre }}
+            </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label class ="m-4" for="">Género <span class="validation-asterisk">*</span></label>
+            <select  class="form-select border-1 border-primary p-1 mb-4 "name="genero" value = "{{values.genero}}" oninput="validateInput(this)">
+              <option value="">Seleccionar Género</option>
+              {% for genero in generos %}
+              <option value="{{ genero.nombre }}" {% if genero.nombre == values.genero %}selected{% endif %}>
+                {{ genero.nombre }}
+            </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label class ="m-4" for="">Estado <span class="validation-asterisk">*</span></label>
+            <select  class="form-select border-1 border-primary p-1 mb-4 "name="estado" value = "{{values.estado}}" oninput="validateInput(this)">
+              <option value="">Seleccionar Estado</option>
+              {% for estado in estados %}
+              <option value="{{ estado.nombre }}" {% if estado.nombre == values.estado %}selected{% endif %}>
+                {{ estado.nombre }}
+            </option>
+              {% endfor %}
+            </select>
+            
+          </div>
+          <div class="form-group">
+            <label class ="m-4" for="">Nacionalidad <span class="validation-asterisk">*</span></label>
+            <select  class="form-select border-1 border-primary p-1 mb-4 "name="nacionalidad" value = "{{values.nacionalidad}}" oninput="validateInput(this)">
+              <option value="">Seleccionar Nacionalidad</option>
+              {% for nacionalidad in nacionalidades %}
+              <option value="{{ nacionalidad.nombre }}" {% if nacionalidad.nombre == values.nacionalidad %}selected{% endif %}>
+                {{ nacionalidad.nombre }}
+            </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label class ="m-4" for="">Móvil <span class="validation-asterisk">*</span></label>
+            <input type="text" class="form-control form-control-sm p-1 mb-4  border-1 border-primary" name="movil" value = "{{values.movil}}" oninput="validateNumberInput(this)" > 
+          </div>
+          <div class="form-group">
+            <label class ="m-4" for="">Nombre <span class="validation-asterisk">*</span></label>
+            <input type="text" class="form-control form-control-sm p-1 mb-4  border-1 border-primary" name="nombre" value = "{{values.nombre}}" oninput="validateInput(this)">
+          </div>
+          <div class="form-group">
+            <label class ="m-4" for="">Cónyuge </label>
+            <input type="text" class="form-control form-control-sm p-1 mb-4  border-1 border-primary" name="conyuge" value = "{{values.conyuge}}">
+          </div>
+        </div>
+        
+        <div class="col-md-6  ">
+          <div class="form-group">
+            <label class ="m-4" for="">Razón Social <span class="validation-asterisk">*</span></label>
+            <input type="text" class="form-control form-control-sm p-1 mb-4 border-1 border-primary" name="razon_social" value = "{{values.razon_social}}" oninput="validateInput(this)">
+          </div>
+          <div class="form-group">
+            <label class ="m-4" for="">Fecha de Inscripción </label>
+            <input type="text" class="datepicker form-control form-control-sm p-1 mb-4  border-1 border-primary" name="fecha_inscripcion" value = "{{values.fecha_inscripcion}}" placeholder="Seleccionar Fecha">
+          </div>
+          <div class="form-group">
+            <label class ="m-4" for="">Actividad <span class="validation-asterisk">*</span></label>
+            <input type="text" class="form-control form-control-sm p-1 mb-4  border-1 border-primary" name="actividad" value = "{{values.actividad}}" oninput="validateInput(this)">
+          </div>
+          <div class="form-group">
+            <label class ="m-4" for="">Email <span class="validation-asterisk">*</span></label>
+            <input type="text" class="form-control form-control-sm p-1 mb-4  border-1 border-primary" name="email" value = "{{values.email}}" oninput="validateInput(this)">
+          </div>
+          <div class="form-group">
+            <label class ="m-4" for="">Dirección Domicilio <span class="validation-asterisk">*</span></label>
+            <input type="text" class="form-control form-control-sm p-1 mb-4  border-1 border-primary" name="dir_domicilio" value = "{{values.dir_domicilio}}" oninput="validateInput(this)">
+          </div>
+          <div class="form-group">
+            <label class ="m-4" for="">Recaudador <span class="validation-asterisk">*</span></label>
+            <select  class="form-select border-1 border-primary p-1 mb-4 "name="recaudador" value = "{{values.recaudador}}" oninput="validateInput(this)">
+              <option value="">Seleccionar Recaudador</option>
+              {% for recaudador in recaudadores %}
+              <option value="{{ recaudador.nombre }}" {% if recaudador.nombre == values.recaudador %}selected{% endif %}>
+                {{ recaudador.nombre }}
+            </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label class ="m-4" for="">Linea de Negocio <span class="validation-asterisk">*</span></label>
+            <select  class="form-select border-1 border-primary p-1 mb-4 "name="linea_negocio" value = "{{values.linea_negocio}}" oninput="validateInput(this)">
+            <option value="">Seleccionar Linea de Negocio</option>
+            {% for linea in lineas %}
+            <option value="{{ linea.nombre }}" {% if linea.nombre == values.linea_negocio %}selected{% endif %}>
+              {{ linea.nombre }}
+          </option>
+            {% endfor %}
+          </select>
+          </div>
+          <div class="form-group">
+            <label class ="m-4" for="">Aseguradora <span class="validation-asterisk">*</span></label>
+            <select  class="form-select border-1 border-primary p-1 mb-4 "name="aseguradora" value = "{{values.aseguradora}}" oninput="validateInput(this)">
+            <option value="">Seleccionar Aseguradora</option>
+            {% for aseguradora in aseguradoras %}
+            <option value="{{ aseguradora.nombre }}" {% if aseguradora.nombre == values.aseguradora %}selected{% endif %}>
+              {{ aseguradora.nombre }}
+          </option>
+            {% endfor %} 
+            </select>
+          </div>
+          <div class="form-group">
+            <label class ="m-4" for="">Estado Civil <span class="validation-asterisk">*</span></label>
+            <select  class="form-select border-1 border-primary p-1 mb-4 "name="estado_civil" value = "{{values.estado_civil}}" oninput="validateInput(this)">
+            <option value="">Seleccionar Estado Civil</option>
+            {% for estadocivil in estadoscivil %}
+            <option value="{{ estadocivil.nombre }}" {% if estadocivil.nombre == values.estado_civil %}selected{% endif %}>
+              {{ estadocivil.nombre }}
+          </option>
+            {% endfor %}  
+            </select>
+            
+            
+          </div>
+          <div class="form-group">
+            <label class ="m-4" for="">Nombre Comercial <span class="validation-asterisk">*</span></label>
+            <input type="text" class="form-control form-control-sm p-1 mb-4  border-1 border-primary" name="nombre_comercial" value = "{{values.nombre_comercial}}" oninput="validateInput(this)">
+          </div>
+          <div class="form-group">
+            <label class ="m-4" for="">Representante Legal</label>
+            <input type="text" class="form-control form-control-sm p-1 mb-4  border-1 border-primary" name="representantelegal" value = "{{values.representantelegal}}">
+          </div>
+          <div class="form-group">
+            <label class ="m-4" for="">Clase <span class="validation-asterisk">*</span></label>
+            <select  class="form-select border-1 border-primary p-1 mb-4 "name="idclase" value = "{{values.idclase}}" oninput="validateInput(this)">
+            <option value="">Seleccionar Clase</option>
+            {% for clase in clases %}
+            <option value="{{ clase.nombre }}" {% if clase.nombre == values.idclase %}selected{% endif %}>
+              {{ clase.nombre }}
+          </option>
+            {% endfor %} 
+            </select>
+          </div>  
+        </div>
+      </div>
+      
+      <input type="submit" value="Ingresar" class = "btn btn-primary px-4 py-2 m-4">
+      </form>
+    </div>
+
+  </div>
+
+</div>
+
+
+<style>
+  .form-group label {
+      color: #153d6c;
+      font-size: 18px; 
+      font-weight:600;  
+      display: block; 
+      margin-bottom: 5px;  
+  }
+  .form-group input, select {
+      font-size: 16px;
+      min-height: 40px;
+      max-width: 550px;  
+      margin-right: auto;  
+      margin-left: auto; 
+  }
+
+  .validation-asterisk {
+      color: red;
+      font-size: 18px;
+  }
+</style>
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="{% static 'js/editDate.js' %}"> </script>
+<script src="{% static 'js/validateInput.js' %}"> </script>
+{% endblock content%}
+
+

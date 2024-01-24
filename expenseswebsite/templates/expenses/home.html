@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'partials/_messages.html' %}
+
+<div class="container-fluid">
+    <div class="row justify-content-center align-items-center vh-100"
+        style="background: url('{% static 'img/logo2.png' %}') center center no-repeat; background-size: cover;">
+        <div class="col-md-10 gradient-background text-white text-center ">
+            <h1 class="display-1 text-primary mb-5">Sistema de gestión de datos</h1>
+            <p class="lead text-primary mb-5">Sistema de gestión de base de datos de los Socios afiliados a la Cámara de Comercio de Loja,
+                elija una opción para comenzar.</p>
+
+            <div class="row justify-content-center">
+                <div class="col-md-3">
+                    <div class="button-container">
+                        <a href="{% url 'index' %}" class="btn btn-primary btn-lg btn-block mb-4 py-4 px-5"
+                            style="background-color: #efb810; border-color: #ffbf00;">Socios</a>
+                    </div>
+
+                </div>
+                <div class="col-md-3">
+                    <div class="button-container">
+                        <a href="{% url 'financiero' %}" class="btn btn-primary btn-lg btn-block mb-4 py-4 px-5"
+                            style="background-color: #efb810; border-color: #ffbf00;">Finanzas</a>
+                    </div>
+
+                </div>
+                <div class="col-md-3">
+                    <div class="button-container">
+
+                        <a href="{% url 'stats' %}" class="btn btn-primary btn-lg btn-block mb-4 py-4 px-5"
+                            style="background-color: #efb810; border-color: #ffbf00;">Estadísticas</a>
+                    </div>
+
+                </div>
+                <div class="col-md-3">
+                    <div class="button-container">
+                        <a href="{% url 'reports' %}" class="btn btn-primary btn-lg btn-block mb-4 py-4 px-5"
+                        style="background-color: #efb810; border-color: #ffbf00;">Reportes</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .button-container a:hover {
+
+        transition: transform 0.3s ease-in-out;
+        transform: translateY(-10px);
+    }
+</style>
+{% endblock content %}

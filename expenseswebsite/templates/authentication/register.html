@@ -1,0 +1,108 @@
+{% extends "base_auth.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    body {
+        background-color: #153d6c; /* Cambia aquí el color de fondo deseado */
+    }
+
+
+    
+
+    
+
+    
+
+    /* Agrega otros estilos según sea necesario */
+</style>
+
+
+<div class=" row ">
+    <div class ="row bg-white">
+        <img src="..\static\img\logo.png" class="img-fluid p-2" style="width: 18%;"  alt="">
+        
+        <div class = "col-md-12 shadow-sm p-1">
+            
+            
+        </div>
+        
+        
+    </div>
+
+
+    <div class="col-md-4">
+        
+    </div>
+
+    <div class="col-md-4 mt-3">
+        <div class="card mt-5 border-1 border-primary bg-white">
+
+
+            <div class="card-body ">
+
+                <div class="card-title py-3 card-title-primary">
+                    <h4> Registrar Nuevo Usuario <h4>
+                    <hr class="w-100 my-0 bg-primary border-bottom">
+                </div>
+                
+
+
+                <form action="{% url 'register' %}" method="post">
+                    {% csrf_token %}
+                    {% include 'partials/_messages.html' %}
+                    <div class="form-group p-2 ">
+                        <input type="text" placeholder="Usuario" name="username" id="usernameField" 
+                            class="form-control form-control-sm border-1 border-primary" value="{{fieldValues.email}}">
+                    </div>
+                    <div class="invalid_feedback invalid-feedback" style="display:none">
+                        <p></p>
+                    </div>
+                    <p class="text-sm text-success usernameSuccesOutput"></p>
+
+                    <div class="form-group p-2">
+                        <input type="email" placeholder="Correo electrónico" name="email"
+                            class="form-control form-control-sm border-1 border-primary" id="emailfield" value="{{fieldValues.email}}">
+                    </div>
+                    <div class="emailFeedbackArea invalid-feedback" style="display:none">
+                        <p></p>
+                    </div>
+                    <p class="text-sm text-success emailSuccesOutput"></p>
+
+
+                    <div class="form-group p-2">
+                        <input type="password" placeholder="Contraseña (Min: 7 digitos)" name="password"
+                            class="form-control form-control-sm border-1 border-primary" id="passwordfield">
+                        <small class="float-end p-2 showPasswordToggle">Mostrar</small>
+                        <small class="float-end p-2 showPasswordToggle">Recuperar contraseña</small>
+                    </div>
+
+                    <input type="submit" value="Registrarse" class="btn btn-block btn-primary my-3 mx-2 px-2 submit-btn">
+
+                    <div class="text-end p-2">
+                        <small class="text-sm my-0">¿Ya tiene una cuenta?</small>
+                        <div>
+                            <a href="{% url 'login' %}"><small class="text-sm"><strong>Acceder</strong></small></a>
+
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="col-md-4"> </div>
+    
+    
+</div>
+
+
+<script src="{% static 'js/register.js' %}"></script>
+
+
+
+
+{% endblock content %}

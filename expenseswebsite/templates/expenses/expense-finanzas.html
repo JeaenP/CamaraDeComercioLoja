@@ -1,0 +1,117 @@
+{% extends 'base.html'  %}
+{% load static %}
+
+{% block content %}
+{% include 'partials/_messages.html' %}
+
+<div class="container mt-4"> 
+    <div class="row">
+        <div class="col-md-10">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="{% url 'home' %}">Inicio</a></li>
+                  <li class="breadcrumb-item"><a href="{% url 'index' %}">Socios</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Información Financiera</li>
+                </ol>
+              </nav>
+        </div>
+    </div>
+    
+</div>
+
+
+<div class="container">
+    <div>
+          <br>
+    
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-8">
+            <div class="col-md-8">
+                <strong>Informacion financiera de: </strong> {{ nombre }} 
+            </div>
+            
+        </div>
+        
+    </div>
+    
+    <div class="app-table">
+        <div class="app-table-scroll">
+            <table class="table table-stripped table-hover">
+                <thead>
+                    <tr>
+                    <th></th>
+                    <th>Cédula/RUC</th>
+                    <th>Cuota Total</th>
+                    <th>Cuota Última Fecha</th>
+                    <th>Emisión</th>
+                    <th>Número de Cuota</th>              
+                    <th>Último Pago</th>
+                    <th>Meses Aportados</th>   
+                    <th>Recaudador</th>
+                    <th>Fecha de Actualización</th>
+                    <th>Fecha Última Factura 1</th>
+                    <th>ID Clase</th>
+                    <th>Fecha Última Factura 2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <a style="text-align: center; "><a href="{% url 'add-pago' expense.id %}"
+                                class = "btn btn-secondary btn-sm mx-3">Pago</a></a>
+                            <a style="text-align: center;"><a href="{% url 'historial-pagos' expense.id %}"
+                                class = "btn btn-info btn-sm mx-3">Historial</a></a>
+                        </td>
+                        
+                        <td>{{ expense.cedula_ruc}}</td>
+                        <td>{{ expense.cuota_total}}</td>
+                        <td>{{ expense.cuota_ult_fecha |date:"d-m-Y"  }}</td>
+                        <td>{{ expense.emitidas}}</td>
+                        <td>{{ expense.cuota_nro}}</td>
+                        <td>{{ expense.ultimo_pago|date:"d-m-Y"}}</td>
+                        <td>{{ expense.nmesesaportados}}</td>
+                        <td>{{ expense.recaudador}}</td>
+                        <td>{{ expense.fechaactualizacion|date:"d-m-Y"}}</td>
+                        <td>{{ expense.fechaultimafact|date:"d-m-Y"}}</td>
+                        <td>{{ expense.idclase}}</td>
+                        <td>{{ expense.fecha_ultima_factura|date:"d-m-Y"}}</td>
+
+                        
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+        
+    
+    </div>
+
+    
+</div>
+
+
+<script>
+    const expenseEditUrl = "{% url 'expense-edit' 0 %}".replace("0", "item.id");
+    const expenseFinanzasUrl = "{% url 'expense-finanzas' 0 %}".replace("0", "item.id");
+</script>
+<style>
+    .app-table-scroll th,
+    .app-table-scroll td {
+        min-width: 190px; 
+    }
+    .app-table-container {
+        overflow-x: auto;
+    }
+
+    .app-table-scroll {
+        min-height: 500px;
+        width: 100%;
+        overflow-x: scroll;
+    }
+</style>
+
+{% endblock content %}
+
+

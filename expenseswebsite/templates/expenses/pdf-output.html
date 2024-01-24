@@ -1,0 +1,57 @@
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socios Report</title>
+    <style>
+
+        table {
+            width: 90%;
+            margin: auto;
+            border-collapse: collapse;
+            margin-top: 20px;  /* Ajusta según sea necesario */
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 3px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <img src="static\img\logo1.png" class="img-fluid p-2"  alt="">
+    <h1>Reporte</h1>
+    <p>Fecha: {{ current_date }}</p>
+    <table>
+        <tr>
+            <th>Cédula/RUC</th>
+            <th>Razón Social</th>
+            <th>Fecha de Nacimiento</th>
+            <th>Fecha de Inscripción</th>
+            <th>Nombre Comercial</th>
+            
+        </tr>
+        {% for expense in expenses %}
+            <tr>
+                <td>{{ expense.cedula_ruc}}</td>
+                <td>{{ expense.razon_social}}</td>
+                <td>{{ expense.fecha_nacimiento |date:"d-m-Y" }}</td>
+                <td>{{ expense.fecha_inscripcion |date:"d-m-Y"  }}</td>
+                <td>{{ expense.nombre_comercial}}</td>
+                <!-- Agrega más campos según tus necesidades -->
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+{% endblock content %}

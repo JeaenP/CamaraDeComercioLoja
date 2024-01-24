@@ -1,0 +1,90 @@
+{% extends 'base.html'  %}
+{% load static %}
+
+{% block content %}
+{% include 'partials/_messages.html' %}
+
+<div class="container mt-4"> 
+    <div class="row">
+        <div class="col-md-10">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="{% url 'home' %}">Inicio</a></li>
+                  <li class="breadcrumb-item"><a href="{% url 'index' %}">Socios</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Ubicación Domicilio</li>
+                </ol>
+              </nav>
+        </div>
+    </div>
+    
+</div>
+
+
+<div class="container">
+    <div>
+          <br>
+    
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-10">
+            <div class="col-md-8">
+                <strong>Ubicación Domicilio de: </strong> {{ nombre }} 
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="col-md-12">
+                <a href="{% url 'expense-edit' expense.id %}"
+                                class = "btn btn-success btn-sm mx-3 p-2">Cambiar Ubicación</a>
+            </div>
+        </div>
+        
+    </div>
+    
+    
+    <div class= "row mb-5">
+        <div class = "card p-3 mb-5 ">
+            <h6 class = "text-sm py-1">{{ expense.dir_domicilio }}</h6>
+            
+                    <h3 class="no-results my-5" style="display: none;"><img src="..\static\img\nomap.svg" class="img-fluid mx-2" style="width: 7%;"  alt="">
+                        Información sobre la ubicación no disponible    
+                    </h3 >
+                    <h6 class="no-results2 pl-6" style="display: none; margin-bottom: 80px;">Verifique la Direccion de domicilio o intente cambiarla para obtener cordenadas validas.</h6>
+            
+            <div id="mapa_{{ expense.id }}" style="height: 500px; width: 100%; display: block;"></div>
+
+        </div>
+
+    </div>
+    
+
+
+    
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWcxXZO36iZusfLvs4CZeOLplPir5DlvY&callback=inicializarMapa" defer></script>
+
+
+<script src="{% static 'js/showMap.js' %}"> </script>
+<script>
+    {% if expense.latitud_comercial == None %}
+        var latitudDomicilio = null;
+    {% else %}
+        var latitudDomicilio = {{ expense.latitud_domicilio }};
+    {% endif %}
+
+    {% if expense.longitud_comercial == None %}
+        var longitudDomicilio = null;
+    {% else %}
+        var longitudDomicilio = {{ expense.longitud_domicilio }};
+    {% endif %}
+    document.addEventListener("DOMContentLoaded", function() {
+        mostrarUbicacion('{{ expense.id }}', latitudDomicilio, longitudDomicilio );
+    }); 
+    
+
+</script>
+
+{% endblock content %}
+
+
