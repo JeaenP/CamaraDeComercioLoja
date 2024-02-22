@@ -1,10 +1,12 @@
-
 document.addEventListener('DOMContentLoaded', function() {
   const coloresSocios = [
       'rgba(23, 107, 160, 0.6)',   
       'rgba(25, 170, 222, 0.6)',    
       'rgba(26, 201, 230, 0.6)',  
-      'rgba(27, 212, 212, 0.6)',   
+      'rgba(27, 212, 212, 0.6)', 
+      'rgba(29, 228, 189, 0.6)', 
+      'rgba(109, 240, 210,0.6)'
+
   ];
 
 var oroSocios75AniosCtx = document.getElementById('oroSocios75AniosChart').getContext('2d');
@@ -29,7 +31,7 @@ var oroSocios75AniosChart = new Chart(oroSocios75AniosCtx, {
           },
           title: {
               display: true,
-              text: 'Proporción de Socios Oro con 75 Años'
+              text: 'PROPORCION DE SOCIOS ORO CON 75 AÑOS'
           }
       }
   }
@@ -188,33 +190,162 @@ var oroSocios75AniosChart = new Chart(oroSocios75AniosCtx, {
             },
             title: {
                 display: true,
-                text: 'Proporción de Socios Oro con 75 Años'
+                text: 'SOCIOS POR GÉNERO'
             }
         }
     }
   });
 
-  var lineChartCtx = document.getElementById('lineChart').getContext('2d');
-  var lineChart = new Chart(lineChartCtx, {
-    type: 'line',
-    data: {
-        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-        datasets: [{
-            label: 'Pagos Mensuales',
-            data: datosLineChart,
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 2,
-            fill: false,
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
+
+
+var sociosPorLineaCtx = document.getElementById('sociosPorLineaChart').getContext('2d');
+  var sociosPorLineaChart = new Chart(sociosPorLineaCtx, {
+      type: 'bar',
+      data: {
+          labels: lineasSocios,
+          datasets: [{
+              label: 'Cantidad de Socios',
+              data: cantidadSociosLineas,
+              backgroundColor: coloresSocios,
+              borderColor: coloresSocios.map(color => color.replace('0.6', '1')),
+              borderWidth: 2,
+              borderRadius: 5,
+              borderSkipped: false,
+          }]
+      },
+      options: {
+          indexAxis: 'x',
+          responsive: true,
+          maintainAspectRatio: true,  
+          plugins: {
+              legend: {
+                  display: false,
+                  
+                 
+                  labels: {
+                      usePointStyle: true,
+                      generateLabels: function(chart) {
+                          var data = chart.data;
+                          if (data.labels.length && data.datasets.length) {
+                              return data.labels.map(function(label, index) {
+                                  var dataset = data.datasets[0];
+                                  var pointStyle = 'rect';
+                                  return {
+                                      text: label,
+                                      fillStyle: dataset.backgroundColor[index],
+                                      strokeStyle: dataset.borderColor[index],
+                                      lineWidth: dataset.borderWidth,
+                                      pointStyle: pointStyle,
+                                      hidden: false,
+                                      datasetIndex: 0,
+                                      index: index,
+                                  };
+                              });
+                          }
+                          return [];
+                      },
+                  },
+                  
+              },
+              title: {
+                  display: true,
+                  text: 'SOCIOS POR LINEA DE NEGOCIO',
+              },
+          },
+          scales: {
+              y: {
+                  ticks: {
+                      display: false,
+                  },
+              },
+          },
+          
+      },
+  });
+
+
+  var sociosPorCivilCtx = document.getElementById('sociosPorCivilChart').getContext('2d');
+var sociosPorCivilChart = new Chart(sociosPorCivilCtx, {
+  type: 'doughnut',
+  data: {
+      labels: civilSocios,
+      datasets: [{
+          data: cantidadSociosCivil,
+          backgroundColor: coloresSocios,
+          borderColor: coloresSocios.map(color => color.replace('0.6', '1')),
+          borderWidth: 1
+      }]
+  },
+  options: {
+      responsive: true,
+      maintainAspectRatio: false,  
+      plugins: {
+          legend: {
+              position: 'top',
+              align: 'start'
+          },
+          title: {
+              display: true,
+              text: 'SOCIOS POR ESTADO CIVIL'
+          }
+      }
+  }
+});
+
+
+var sociosPorAseguradoraCtx = document.getElementById('sociosPorAseguradoraChart').getContext('2d');
+var sociosPorAseguradoraChart = new Chart(sociosPorAseguradoraCtx, {
+  type: 'doughnut',
+  data: {
+      labels: aseguradoraSocios,
+      datasets: [{
+          data: cantidadSociosAseguradora,
+          backgroundColor: coloresSocios,
+          borderColor: coloresSocios.map(color => color.replace('0.6', '1')),
+          borderWidth: 1
+      }]
+  },
+  options: {
+      responsive: true,
+      maintainAspectRatio: false,  
+      plugins: {
+          legend: {
+              position: 'top',
+              align: 'start'
+          },
+          title: {
+              display: true,
+              text: 'DISTRIBUCIÓN DE ASEGURADORAS'
+          }
+      }
+  }
+});
+
+var sociosPorComiteCtx = document.getElementById('sociosPorComiteChart').getContext('2d');
+var sociosPorComiteChart = new Chart(sociosPorComiteCtx, {
+  type: 'doughnut',
+  data: {
+      labels: comiteSocios,
+      datasets: [{
+          data: cantidadSociosComite,
+          backgroundColor: coloresSocios,
+          borderColor: coloresSocios.map(color => color.replace('0.6', '1')),
+          borderWidth: 1
+      }]
+  },
+  options: {
+      responsive: true,
+      maintainAspectRatio: false,  
+      plugins: {
+          legend: {
+              position: 'top',
+              align: 'start'
+          },
+          title: {
+              display: true,
+              text: 'DISTRIBUCIÓN DE COMITES'
+          }
+      }
+  }
 });
 });

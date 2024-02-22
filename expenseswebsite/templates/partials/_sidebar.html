@@ -45,7 +45,7 @@
       <li class="nav-item">
         <a class="nav-link d-flex align-items-center gap-2" href="{% url 'export-excel' %}">
           <svg class="bi"><use xlink:href="#file-earmark-text"/></svg>
-          EXEL
+          EXCEL
         </a>
       </li>
       <li class="nav-item">
@@ -61,12 +61,7 @@
     <hr class="my-3">
 
     <ul class="nav flex-column mb-auto">
-      <li class="nav-item">
-        <a class="nav-link d-flex align-items-center gap-2" href="#">
-          <svg class="bi"><use xlink:href="#gear-wide-connected"/></svg>
-          Configuraciones
-        </a>
-      </li>
+      
       <li class="nav-item">
         <form action= "{% url 'logout' %}" method="POST">
           {% csrf_token %}

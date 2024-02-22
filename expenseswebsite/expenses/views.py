@@ -709,6 +709,10 @@ def stats_view(request):
     socios_cumplen_75_anios_este_mes = Expense.objects.filter(fecha_nacimiento__year=(anio_actual - 74), fecha_nacimiento__month=mes_actual).count()
     socios_inscritos_este_anio = Expense.objects.filter(fecha_inscripcion__year=anio_actual).count()
     socios_inscritos_este_mes = Expense.objects.filter(fecha_inscripcion__year=anio_actual, fecha_inscripcion__month=mes_actual).count()
+    socios_por_linea = Expense.objects.values('linea_negocio').annotate(cantidad=Count('id'))
+    socios_por_civil = Expense.objects.values('estado_civil').annotate(cantidad=Count('id'))
+    socios_por_aseguradora = Expense.objects.values('aseguradora').annotate(cantidad=Count('id'))
+    socios_por_comite = Expense.objects.values('pertenece_comite').annotate(cantidad=Count('id'))
 
 
     fecha_hace_un_anio = datetime.datetime.now() - timedelta(days=365)
@@ -739,8 +743,10 @@ def stats_view(request):
         'socios_inscritos_este_anio': socios_inscritos_este_anio,
         'socios_inscritos_este_mes': socios_inscritos_este_mes,
         'datos_line_chart': datos_line_chart,
-
-
+        'socios_por_linea': socios_por_linea,
+        'socios_por_civil': socios_por_civil,
+        'socios_por_aseguradora': socios_por_aseguradora,
+        'socios_por_comite': socios_por_comite,
     }
 
     return render(request, 'expenses/stats.html', context)

@@ -96,16 +96,54 @@
             </div>
     
           </div>
-
           <div class="col-md-12" >
             <div class = "card p-4 my-2 mx-0 shadow rounded-5" style="border: solid 3px;  border-color: #176ba0;">
                 <div class = card-body> 
-                    <canvas id="lineChart" width="100" height=200" ></canvas>
+                    <canvas id="sociosPorLineaChart" width="100" height=50" ></canvas>
                 </div>
                 
                 
             </div>
     
+          </div>
+
+          <div class="col-md-4">
+            <div class = "card p-4 my-2 mx-0 shadow rounded-5" style="border: solid 3px;  border-color: #176ba0;">
+                <div class = card-body>
+              <canvas id="sociosPorCivilChart" width="400" height="230"></canvas>
+              
+                </div>
+                {% for civil in socios_por_civil %}
+                <p class = "m-0"> <span style="display: inline-block;">●</span> {{ civil.estado_civil }}: <strong>{{ civil.cantidad }}</strong></p>
+                
+                {% endfor %}
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class = "card p-4 my-2 mx-0 shadow rounded-5" style="border: solid 3px;  border-color: #176ba0;">
+                <div class = card-body>
+              <canvas id="sociosPorAseguradoraChart" width="400" height="275"></canvas>
+              
+                </div>
+                {% for aseguradora in socios_por_aseguradora %}
+                <p class = "m-0"> <span style="display: inline-block;">●</span> {{ aseguradora.aseguradora }}: <strong>{{ aseguradora.cantidad }}</strong></p>
+                
+                {% endfor %}
+            </div>
+          </div>
+          
+          <div class="col-md-4">
+            <div class = "card p-4 my-2 mx-0 shadow rounded-5" style="border: solid 3px;  border-color: #176ba0;">
+                <div class = card-body>
+              <canvas id="sociosPorComiteChart" width="400" height="255"></canvas>
+              
+                </div>
+                {% for comite in socios_por_comite %}
+                <p class = "m-0"> <span style="display: inline-block;">●</span> {{ comite.pertenece_comite }}: <strong>{{ comite.cantidad }}</strong></p>
+                
+                {% endfor %}
+            </div>
           </div>
       
   </div>
@@ -126,9 +164,16 @@
     var socios_30_anios_aporte_este_mes = {{socios_30_anios_aporte_este_mes}}
     var generoSocios = [ {% for genero in socios_por_genero %}'{{ genero.genero }}',{% endfor %} ];
     var cantidadSociosGenero = [ {% for genero in socios_por_genero %}{{ genero.cantidad }},{% endfor %} ];
-    var datosLineChart = {{ datos_line_chart|safe }};
+    var lineasSocios = [ {% for linea in socios_por_linea %}'{{ linea.linea_negocio }}',{% endfor %} ];
+    var cantidadSociosLineas = [ {% for linea in socios_por_linea %}{{ linea.cantidad }},{% endfor %} ];
+    var civilSocios = [ {% for civil in socios_por_civil %}'{{ civil.estado_civil }}',{% endfor %} ];
+    var cantidadSociosCivil = [ {% for civil in socios_por_civil %}{{ civil.cantidad }},{% endfor %} ];
+    var aseguradoraSocios = [ {% for Aseguradora in socios_por_aseguradora %}'{{ Aseguradora.aseguradora }}',{% endfor %} ];
+    var cantidadSociosAseguradora = [ {% for Aseguradora in socios_por_aseguradora %}{{ Aseguradora.cantidad }},{% endfor %} ];
+    var comiteSocios = [ {% for comite in socios_por_comite %}'{{ comite.pertenece_comite }}',{% endfor %} ];
+    var cantidadSociosComite = [ {% for comite in socios_por_comite %}{{ comite.cantidad }},{% endfor %} ];
 </script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap">
+<link rel="stylesheet"href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap">
 <style>
   body { 
     background-color: eff3f6 ;
