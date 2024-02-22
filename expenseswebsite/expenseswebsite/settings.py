@@ -85,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'incomeexpensesdb',
         'USER': 'postgres',
-        'PASSWORD': 'jp2583462',
+        'PASSWORD': '',
         'HOST': 'localhost',
         
     }
@@ -145,5 +145,5 @@ EMAIL_HOST_USER = 'jpvpvalarezo@gmail.com'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'jpvpvalarezo@gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_PASSWORD = 'vlwy ljdu tqfu xzpl'
+EMAIL_HOST_PASSWORD = ''
 
